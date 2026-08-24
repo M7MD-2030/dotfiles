@@ -1,0 +1,67 @@
+{
+    "project_panel": {
+        "dock": "left"
+    },
+    "cli_default_open_behavior": "new_window",
+    "telemetry": {
+        "diagnostics": false,
+        "metrics": false,
+        "anthropic_retention": false
+    },
+    "session": {
+        "trust_all_worktrees": true
+    },
+    "base_keymap": "VSCode",
+    "icon_theme": "Zed (Default)",
+    "ui_font_size": 18,
+    "buffer_font_size": 25,
+    "theme": "Ayu Dark",
+    "title_bar": {
+        "show_branch_icon": false,
+        "show_branch_name": false,
+        "show_worktree_name": false,
+        "show_project_items": false,
+        "show_onboarding_banner": false,
+        "show_user_picture": false,
+        "show_user_menu": false,
+        "show_sign_in": false,
+        "show_menus": false
+    },
+    "status_bar": {
+        "experimental.show": false
+    },
+    "toolbar": {
+        "breadcrumbs": false,
+        "quick_actions": false
+    },
+    // Save the buffer automatically whenever focus leaves it -
+    // e.g. clicking into the integrated terminal or another pane.
+    // This is what makes "switch to terminal -> run the file" safe
+    // without a manual Ctrl+S first.
+    "autosave": "on_focus_change",
+    "format_on_save": "on",
+    "tab_size": 4,
+    "show_completions_on_input": true,
+    "show_completion_documentation": true,
+    "languages": {
+        "Python": {
+            "tab_size": 4,
+            "formatter": {
+                "external": { "command": "black", "arguments": ["-"] }
+            },
+            "language_servers": ["pyright", "!ruff"]
+        },
+        "C": {
+            "tab_size": 4,
+            "language_servers": ["clangd"]
+        },
+        "C++": {
+            "tab_size": 4,
+            "language_servers": ["clangd"]
+        },
+        "Shell Script": {
+            "tab_size": 2,
+            "language_servers": ["bash-language-server"]
+        }
+    }
+}

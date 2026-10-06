@@ -1,0 +1,17 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "super-r": ["action::Sequence", ["workspace::SaveAll", ["task::Spawn", { "task_name": "Run file" }]]],
+      "ctrl-`": null,
+      "ctrl-~": null
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-shift-up": "editor::DuplicateLineUp",
+      "ctrl-shift-down": "editor::DuplicateLineDown"
+    }
+  }
+]

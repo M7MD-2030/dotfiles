@@ -1,0 +1,65 @@
+#!/bin/bash
+# t — toggle Claude / YouTube blocks in /etc/hosts
+#   t            status of both
+#   t cl         toggle Claude
+#   t yt         toggle YouTube
+#   t yt status  status of one
+set -euo pipefail
+export PATH=/usr/sbin:/usr/bin
+SELF=/usr/local/bin/t
+[[ $EUID -eq 0 ]] || exec sudo -n "$SELF" "$@"
+
+HOSTS=/etc/hosts
+CLAUDE_DOMAINS=(claude.ai www.claude.ai)   # add api.anthropic.com to also cut Claude Code
+YOUTUBE_DOMAINS=(
+  youtube.com www.youtube.com m.youtube.com music.youtube.com
+  studio.youtube.com tv.youtube.com gaming.youtube.com youtu.be
+  youtube-nocookie.com www.youtube-nocookie.com
+  youtubei.googleapis.com youtube.googleapis.com
+  yt3.ggpht.com ytimg.com i.ytimg.com s.ytimg.com i9.ytimg.com
+  youtubekids.com www.youtubekids.com
+)
+declare -A LABEL=([claude]=Claude [youtube]=YouTube)
+
+usage() { echo "usage: t [cl|yt] [status]" >&2; exit 1; }
+
+target=""; action=toggle
+(( $# == 0 )) && action=status
+for a in "$@"; do
+  case "$a" in
+    cl|claude)  target=claude ;;
+    yt|youtube) target=youtube ;;
+    status|s)   action=status ;;
+    *)          usage ;;
+  esac
+done
+
+bm() { echo "# ===== ${1^^} BLOCK BEGIN ====="; }
+em() { echo "# ===== ${1^^} BLOCK END ====="; }
+blocked() { grep -qxF "$(bm "$1")" "$HOSTS"; }
+show() { if blocked "$1"; then echo "${LABEL[$1]}: BLOCKED"; else echo "${LABEL[$1]}: ALLOWED"; fi; }
+
+if [[ $action == status ]]; then
+  if [[ -n $target ]]; then show "$target"; else show claude; show youtube; fi
+  exit 0
+fi
+[[ -n $target ]] || usage
+
+B=$(bm "$target"); E=$(em "$target")
+declare -n DOMAINS="${target^^}_DOMAINS"
+
+chattr -i "$HOSTS"
+trap 'chattr +i "$HOSTS"' EXIT
+
+if blocked "$target"; then
+  sed -i "/^${B}\$/,/^${E}\$/d" "$HOSTS"
+  echo "${LABEL[$target]}: ALLOWED"
+else
+  {
+    echo "$B"
+    for d in "${DOMAINS[@]}"; do printf '0.0.0.0 %s\n:: %s\n' "$d" "$d"; done
+    echo "$E"
+  } >> "$HOSTS"
+  echo "${LABEL[$target]}: BLOCKED"
+fi
+resolvectl flush-caches 2>/dev/null || true

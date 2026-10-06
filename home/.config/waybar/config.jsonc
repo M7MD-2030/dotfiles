@@ -1,0 +1,13 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": ["wayfire/workspaces"],
+  "modules-center": [],
+  "modules-right": ["custom/status"],
+  "wayfire/workspaces": {},
+  "custom/status": {
+    "exec": "~/.config/wm/status.sh",
+    "format": "{}",
+    "tooltip": false
+  }
+}

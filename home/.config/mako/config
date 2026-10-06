@@ -1,0 +1,31 @@
+font=JetBrainsMono Nerd Font 12
+background-color=#0a0a0aee
+text-color=#e0e0e0
+border-color=#2e2e2e
+border-size=1
+border-radius=10
+padding=12
+width=320
+anchor=top-right
+default-timeout=5000
+max-icon-size=160
+progress-color=over #3b82f6
+
+[app-name=osd]
+anchor=top-right
+layer=overlay
+font=JetBrainsMono Nerd Font 10
+width=200
+padding=6,10
+border-radius=8
+margin=8
+default-timeout=1200
+
+[app-name=screenshot]
+layer=overlay
+
+[app-name=battery]
+layer=overlay
+anchor=top-center
+default-timeout=10000
+border-color=#b91c1c

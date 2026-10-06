@@ -1,0 +1,8 @@
+#!/bin/bash
+# tt: toggle the clock in waybar (status.sh picks it up within 1 second)
+flag="$HOME/.cache/tt-hide-time"
+if [[ -f "$flag" ]]; then
+  rm -f "$flag" && echo "time: shown"
+else
+  mkdir -p "${flag%/*}" && touch "$flag" && echo "time: hidden"
+fi

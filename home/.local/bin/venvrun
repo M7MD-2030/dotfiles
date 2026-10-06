@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# usage: venvrun <dir> <command> [args...]
+# runs <command> from the nearest .venv at/above <dir>, else from PATH
+d="$(realpath "$1")"; shift
+cmd="$1"; shift
+while :; do
+  if [ -x "$d/.venv/bin/$cmd" ]; then exec "$d/.venv/bin/$cmd" "$@"; fi
+  [ "$d" = "/" ] && break
+  d="$(dirname "$d")"
+done
+exec "$cmd" "$@"

@@ -388,3 +388,19 @@ td() {
   notify-send -u critical -a timer "$label" "Time's up"
   pw-play /usr/share/sounds/freedesktop/stereo/complete.oga 2>/dev/null &!
 }
+
+# trans <words>    → English↔Arabic, direction picked automatically
+# trans            → translate whatever is on the clipboard
+# trans -f <words> → full details (meanings, examples)
+trans() {
+  local opt=-b
+  [[ $1 == -f ]] && { opt=; shift; }
+  local text="$*"
+  [[ -z $text ]] && text="$(wl-paste 2>/dev/null)"
+  [[ -z $text ]] && { echo "usage: trans [-f] <words>"; return 1; }
+  if [[ $text == *[ء-ي]* ]]; then
+    command trans -no-bidi $opt ar:en "$text"
+  else
+    command trans -no-bidi $opt en:ar "$text"
+  fi
+}

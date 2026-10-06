@@ -1,12 +1,33 @@
 #!/bin/bash
-# t — toggle Claude / YouTube blocks in /etc/hosts
-#   t            status of both
+# t — toggle Claude / YouTube blocks in /etc/hosts, and the waybar clock
+#   t            status of everything
 #   t cl         toggle Claude
 #   t yt         toggle YouTube
+#   t t          toggle the clock in waybar
 #   t yt status  status of one
 set -euo pipefail
 export PATH=/usr/sbin:/usr/bin
 SELF=/usr/local/bin/t
+
+# The real user's home, even when running under sudo
+REAL_USER=${SUDO_USER:-$USER}
+REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
+TIME_FLAG="$REAL_HOME/.cache/tt-hide-time"   # waybar's status.sh watches this
+
+show_time() { if [[ -f $TIME_FLAG ]]; then echo "Clock: HIDDEN"; else echo "Clock: SHOWN"; fi; }
+
+# --- t t : clock toggle, runs as the normal user (no root needed) ---
+if [[ ${1:-} == t || ${1:-} == time ]]; then
+  if [[ ${2:-} == status || ${2:-} == s ]]; then show_time; exit 0; fi
+  if [[ -f $TIME_FLAG ]]; then
+    rm -f "$TIME_FLAG"; echo "Clock: SHOWN"
+  else
+    mkdir -p "${TIME_FLAG%/*}"; touch "$TIME_FLAG"; echo "Clock: HIDDEN"
+  fi
+  exit 0
+fi
+
+# --- everything else edits /etc/hosts, so re-run as root (passwordless via sudoers) ---
 [[ $EUID -eq 0 ]] || exec sudo -n "$SELF" "$@"
 
 HOSTS=/etc/hosts
@@ -21,7 +42,7 @@ YOUTUBE_DOMAINS=(
 )
 declare -A LABEL=([claude]=Claude [youtube]=YouTube)
 
-usage() { echo "usage: t [cl|yt] [status]" >&2; exit 1; }
+usage() { echo "usage: t [cl|yt|t] [status]" >&2; exit 1; }
 
 target=""; action=toggle
 (( $# == 0 )) && action=status
@@ -40,7 +61,7 @@ blocked() { grep -qxF "$(bm "$1")" "$HOSTS"; }
 show() { if blocked "$1"; then echo "${LABEL[$1]}: BLOCKED"; else echo "${LABEL[$1]}: ALLOWED"; fi; }
 
 if [[ $action == status ]]; then
-  if [[ -n $target ]]; then show "$target"; else show claude; show youtube; fi
+  if [[ -n $target ]]; then show "$target"; else show claude; show youtube; show_time; fi
   exit 0
 fi
 [[ -n $target ]] || usage

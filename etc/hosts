@@ -1,0 +1,58 @@
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   arch.localdomain arch
+
+# ===== PERMANENT BLOCK =====
+0.0.0.0 chatgpt.com
+0.0.0.0 www.chatgpt.com
+0.0.0.0 chat.openai.com
+0.0.0.0 ab.chatgpt.com
+0.0.0.0 gemini.google.com
+0.0.0.0 bard.google.com
+0.0.0.0 aistudio.google.com
+:: chatgpt.com
+:: www.chatgpt.com
+:: chat.openai.com
+:: gemini.google.com
+:: aistudio.google.com
+# ===== PERMANENT BLOCK END =====
+# ===== YOUTUBE BLOCK BEGIN =====
+0.0.0.0 youtube.com
+:: youtube.com
+0.0.0.0 www.youtube.com
+:: www.youtube.com
+0.0.0.0 m.youtube.com
+:: m.youtube.com
+0.0.0.0 music.youtube.com
+:: music.youtube.com
+0.0.0.0 studio.youtube.com
+:: studio.youtube.com
+0.0.0.0 tv.youtube.com
+:: tv.youtube.com
+0.0.0.0 gaming.youtube.com
+:: gaming.youtube.com
+0.0.0.0 youtu.be
+:: youtu.be
+0.0.0.0 youtube-nocookie.com
+:: youtube-nocookie.com
+0.0.0.0 www.youtube-nocookie.com
+:: www.youtube-nocookie.com
+0.0.0.0 youtubei.googleapis.com
+:: youtubei.googleapis.com
+0.0.0.0 youtube.googleapis.com
+:: youtube.googleapis.com
+0.0.0.0 yt3.ggpht.com
+:: yt3.ggpht.com
+0.0.0.0 ytimg.com
+:: ytimg.com
+0.0.0.0 i.ytimg.com
+:: i.ytimg.com
+0.0.0.0 s.ytimg.com
+:: s.ytimg.com
+0.0.0.0 i9.ytimg.com
+:: i9.ytimg.com
+0.0.0.0 youtubekids.com
+:: youtubekids.com
+0.0.0.0 www.youtubekids.com
+:: www.youtubekids.com
+# ===== YOUTUBE BLOCK END =====

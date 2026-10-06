@@ -1,0 +1,17 @@
+{
+  "policies": {
+    "DNSOverHTTPS": {
+      "Enabled": false,
+      "Locked": true
+    },
+    "WebsiteFilter": {
+      "Block": [
+        "*://chatgpt.com/*",
+        "*://*.chatgpt.com/*",
+        "*://chat.openai.com/*",
+        "*://gemini.google.com/*",
+        "*://aistudio.google.com/*"
+      ]
+    }
+  }
+}
